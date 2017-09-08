@@ -103,13 +103,20 @@ def domain_string(domain, path_set):
     return out
 
 def hx(i):
-    a = hex(x)[2:]
+    """
+    Normalised 2-char hex represenation of 0-255
+    """
+    a = hex(i)[2:]
     if len(a)<2: a = ''.join(['0',a])
     return a
 
 hexabet = [hx(x) for x in range(256)] + ['.','-']
 
 def string_features_v1(str):
+    """
+    Coarse first version of a feature vector for a string.
+    A placeholder for stronger versions.
+    """
     N = float(len(str))
     if N==0: return None
     a = len(re.findall(r'/', str))/N
@@ -121,6 +128,9 @@ def string_features_v1(str):
     return [log(N), a, b, c, d, num, cap]
 
 def string_features_hex(hexstr):
+    """
+    Symbol distribution of a hexalised string.
+    """
     out = dict([(x,0) for x in hexabet])
     ct = dict(Counter(hexstr.split()))
     for k in out.keys():
@@ -131,7 +141,10 @@ def string_features_hex(hexstr):
     return out
 
 def string_features_v2(str):
-    return string_features_hex(hexalise(str))
+    """
+    Version 2: combine the hexal distribution with the previous string statistics.
+    """
+    return string_features_v1(str) + string_features_hex(hexalise(str))
 
 """
 PLAN: evaluate features via a trained RNN for additional vector representation
@@ -142,5 +155,5 @@ def domain_features(domain, path_set):
     Takes domain + set of paths as output by parse_urls() and 
     applies extracts statistics of the signature string.
     """
-    return string_features(domain_string(domain, path_set))
+    return string_features_v2(domain_string(domain, path_set))
 
