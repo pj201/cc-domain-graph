@@ -32,24 +32,33 @@ echo `wc -l slaves`
 #################################################################
 # add identity to slave nodes
 
-ssh-agent bash
-ssh-add billsdata-us-east-1.pem
+echo "--> Configuring ssh..."
+
+# TODO: Replace with your key below (generated from EC2 keypair service)
+#KEY="billsdata-us-east-1.pem"
+KEY="paulj-us-east-1.pem"
+
+eval `ssh-agent`
+#ssh-agent bash # Stops script by forking a new bash
+ssh-add $KEY
 ssh-keygen -q -P "" -f ~/.ssh/id_rsa
+
+echo "--> Finished ssh keygen."
 
 for x in `cat slaves`
 do
+    echo "--> Copying keys into slave node: " $x
     ssh-copy-id -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa.pub $x
 done
 
 #################################################################
 # install packages across slave nodes
 
+echo "--> Installing packages across slaves (this may take a few mins)..."
 pssh -h ./slaves -t 100000000 'sudo yum update; sudo yum -y install git; sudo yum -y install pssh; sudo pip install -e git+https://github.com/commoncrawl/gzipstream.git#egg=gzipstream; sudo pip install warc ujson sklearn'
 
 # NOTE: the option -t 10000000 is to prevent time-out during install of 
 # scipy (needed for sklearn) which does a lot of compiling.
 
 #################################################################
-
-
 

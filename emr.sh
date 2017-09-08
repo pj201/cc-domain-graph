@@ -4,7 +4,7 @@
 
 # TODO: Replace with your key below (generated from EC2 keypair service)
 #KEY="/Users/49269/.ssh/billsdata-us-east-1.pem"
-KEY="~/.ssh/paulj-us-east-1.pem"
+KEY="/Users/paulj/.ssh/paulj-us-east-1.pem"
 
 [ $# -eq 0 ] && { echo "Usage: $0 AWS_Hostname"; exit 1; }
 
