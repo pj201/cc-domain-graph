@@ -74,14 +74,22 @@ def parse_urls(record):
         
     return url_list
 
+def hexify(c):
+    try:
+        s = c.encode("utf-8").encode("hex")
+    except UnicodeDecodeError:
+        s=0
+    n = len(s)
+    if n <= 2: return s
+    a = ' '.join([s[i:i+2]+' -' for i in range(0,n,2)])
+    return a[:-1]
+
 def normalise(s):
     """
     Takes URI string and normalises into a 'sentence'. 
     All demiliters (/,-,_,.) are replaced with a space, and a '.' is appended at the end.
     """
-    out = re.split(r'[/|\-|_|\.]', s)
-    if '' in out: out.remove('')
-    return " ".join(out)+". "
+    return ' '.join([hexify(c) for c in s]) + ' . '
     
 def domain_string(domain, path_set):
     """
@@ -107,6 +115,9 @@ def string_features(str):
     d = len(re.findall(r'_', str))/N
     cap = len(re.findall(r'[A-Z]', str))/N
     num = len(re.findall(r'[0-9]', str))/N
+    """
+    PLUS: evaluate through a trained RNN for additional vector representation
+    """
     return [log(N), a, b, c, d, num, cap]
     
 def domain_features(domain, path_set):

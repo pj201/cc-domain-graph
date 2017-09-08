@@ -1,13 +1,14 @@
 #################################################################
 # install packages on master node
 
+sudo yum update
 sudo yum -y install git 
 sudo yum -y install pssh
 sudo pip install -e git+https://github.com/commoncrawl/gzipstream.git#egg=gzipstream
-sudo pip install warc ujson
+sudo pip install warc ujson sklearn
 
-git clone https://github.com/box121209/cc-domain-graph
-
+#git clone https://github.com/box121209/cc-domain-graph
+#export PYTHONPATH=$PYTHONPATH:/home/hadoop/cc-domain-graph/pyspark
 #export SPARK_HOME=/usr/lib/spark
 #export PYTHONPATH=$PYTHONPATH:$SPARK_HOME/python:$SPARK_HOME/python/lib
 #sudo ln -s $SPARK_HOME /usr/local
@@ -43,13 +44,10 @@ done
 #################################################################
 # install packages across slave nodes
 
-pssh -h ./slaves 'sudo yum -y install git; sudo yum -y install pssh; sudo pip install -e git+https://github.com/commoncrawl/gzipstream.git#egg=gzipstream; sudo pip install warc ujson'
+pssh -h ./slaves -t 100000000 'sudo yum update; sudo yum -y install git; sudo yum -y install pssh; sudo pip install -e git+https://github.com/commoncrawl/gzipstream.git#egg=gzipstream; sudo pip install warc ujson sklearn'
 
-
-#################################################################
-# move to cc-domain-graph directory
-
-cd cc-*
+# NOTE: the option -t 10000000 is to prevent time-out during install of 
+# scipy (needed for sklearn) which does a lot of compiling.
 
 #################################################################
 
