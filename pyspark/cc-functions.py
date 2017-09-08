@@ -87,7 +87,8 @@ def hexify(c):
 def normalise(s):
     """
     Takes URI string and normalises into a 'sentence'. 
-    All demiliters (/,-,_,.) are replaced with a space, and a '.' is appended at the end.
+    Unicode characters are replaced with space-separated, hyphenated hex
+    and a '.' is appended at the end.
     """
     return ' '.join([hexify(c) for c in s]) + ' . '
     
