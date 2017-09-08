@@ -1,5 +1,5 @@
-# cc-webgraph
-# Scripts for running CommonCrawl analysis on EMR.
+# cc-domain-graph
+## Scripts for running CommonCrawl analysis on EMR.
 
 Usage:
 
