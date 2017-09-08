@@ -6,7 +6,6 @@
 #KEY="/Users/49269/.ssh/billsdata-us-east-1.pem"
 KEY="~/.ssh/paulj-us-east-1.pem"
 
-AWS_MASTER_PUBLIC_DNS=$1
 [ $# -eq 0 ] && { echo "Usage: $0 AWS_Hostname"; exit 1; }
 
 # Copy key and setup script to master node
