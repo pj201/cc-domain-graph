@@ -102,12 +102,14 @@ def domain_string(domain, path_set):
     for p in path_set: out += normalise(p)
     return out
 
+def hx(i):
+    a = hex(x)[2:]
+    if len(a)<2: a = ''.join(['0',a])
+    return a
 
-def string_features(str):
-    """
-    A placeholder function for extracting statistics of a string.
-    Currently very crude.
-    """
+hexabet = [hx(x) for x in range(256)] + ['.','-']
+
+def string_features_v1(str):
     N = float(len(str))
     if N==0: return None
     a = len(re.findall(r'/', str))/N
@@ -116,10 +118,24 @@ def string_features(str):
     d = len(re.findall(r'_', str))/N
     cap = len(re.findall(r'[A-Z]', str))/N
     num = len(re.findall(r'[0-9]', str))/N
-    """
-    PLUS: evaluate through a trained RNN for additional vector representation
-    """
     return [log(N), a, b, c, d, num, cap]
+
+def string_features_hex(hexstr):
+    out = dict([(x,0) for x in hexabet])
+    ct = dict(Counter(hexstr.split()))
+    for k in out.keys():
+        if k in ct.keys():
+            out[k] += ct[k]
+    out = [v[1] for v in sorted(out.iteritems(), key=lambda (k,v): k)]
+    out = [x/float(sum(out)) for x in out]
+    return out
+
+def string_features_v2(str):
+    return string_features_hex(hexalise(str))
+
+"""
+PLAN: evaluate features via a trained RNN for additional vector representation
+"""
     
 def domain_features(domain, path_set):
     """
