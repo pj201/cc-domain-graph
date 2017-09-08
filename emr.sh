@@ -1,3 +1,17 @@
-scp -i /Users/49269/.ssh/billsdata-us-east-1.pem /Users/49269/.ssh/billsdata-us-east-1.pem hadoop@$1:~
-scp -i /Users/49269/.ssh/billsdata-us-east-1.pem ./setup.sh hadoop@$1:~
-ssh -i /Users/49269/.ssh/billsdata-us-east-1.pem -L 8880:localhost:80 -L 8890:localhost:8890 hadoop@$1
+# Script for initial provisioning of EMR master node
+# Copies key and setup script, then logs in and creates tunnels for Zeppelin and Ganglia
+# BO/PJ 8/9/17
+
+# TODO: Replace with your key below (generated from EC2 keypair service)
+#KEY="/Users/49269/.ssh/billsdata-us-east-1.pem"
+KEY="~/.ssh/paulj-us-east-1.pem"
+
+AWS_MASTER_PUBLIC_DNS=$1
+[ $# -eq 0 ] && { echo "Usage: $0 AWS_Hostname"; exit 1; }
+
+# Copy key and setup script to master node
+scp -i $KEY $KEY hadoop@$1:~
+scp -i $KEY ./setup.sh hadoop@$1:~
+
+# Login to master, with tunnel for Ganglia and Zeppelin
+ssh -i $KEY -L 8880:localhost:80 -L 8890:localhost:8890 hadoop@$1
