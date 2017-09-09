@@ -133,11 +133,12 @@ def string_features_hex(hexstr):
     """
     out = dict([(x,0) for x in hexabet])
     ct = dict(Counter(hexstr.split()))
+    N = len(hexstr.split())
     for k in out.keys():
         if k in ct.keys():
             out[k] += ct[k]
     out = [v[1] for v in sorted(out.iteritems(), key=lambda (k,v): k)]
-    out = [float(x)/sum(out) for x in out]
+    out = [float(x)/N for x in out]
     return out
 
 def string_features_v2(str):
@@ -148,7 +149,7 @@ def string_features_v2(str):
     if N==0: return None
     cap = len(re.findall(r'[A-Z]', str))/N
     num = len(re.findall(r'[0-9]', str))/N
-    return [log(N), num, cap] + string_features_hex(hexalise(str))
+    return string_features_hex(hexalise(str)) + [num, cap, log(N)] 
 
 """
 PLAN: evaluate features via a trained RNN for additional vector representation
