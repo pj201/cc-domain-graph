@@ -84,7 +84,7 @@ def hexify(c):
     a = ' '.join([s[i:i+2]+' -' for i in range(0,n,2)])
     return a[:-1]
 
-def normalise(s):
+def hexalise(s):
     """
     Takes URI string and normalises into a 'sentence'. 
     Unicode characters are replaced with space-separated, hyphenated hex
@@ -98,13 +98,13 @@ def domain_string(domain, path_set):
     a 'signature' string, the concatentaion of the normalisations of domain and 
     all paths.
     """
-    out = normalise(domain)
-    for p in path_set: out += normalise(p)
+    out = hexalise(domain)
+    for p in path_set: out += hexalise(p)
     return out
 
 def hx(i):
     """
-    Normalised 2-char hex represenation of 0-255
+    Normalised 2-char hex representation of 0-255
     """
     a = hex(i)[2:]
     if len(a)<2: a = ''.join(['0',a])
