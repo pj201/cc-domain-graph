@@ -75,32 +75,34 @@ def parse_urls(record):
     return url_list
 
 def hexify(c):
+    """
+    Temporary ASCII encoding for human readable hex with ' - ' as delimiter for detecting 
+    non-Latin unicode.
+    """
     try:
         s = c.encode("utf-8").encode("hex")
     except UnicodeDecodeError:
-        s=0
+        s = 0
     n = len(s)
     if n <= 2: return s
-    a = ' '.join([s[i:i+2]+' -' for i in range(0,n,2)])
+    a = ' - '.join([s[i:i+2] for i in range(0,n,2)])
     return a[:-1]
 
-def hexalise(s):
-    """
-    Takes URI string and normalises into a 'sentence'. 
-    Unicode characters are replaced with space-separated, hyphenated hex
-    and a '.' is appended at the end.
-    """
-    return ' '.join([hexify(c) for c in s]) + ' . '
-    
 def domain_string(domain, path_set):
     """
-    Takes domain + set of paths as output by parse_urls() and constructs
-    a 'signature' string, the concatentaion of the normalisations of domain and 
-    all paths.
+    Takes domain and concatenates with path URIs separated by newlines.. 
     """
-    out = hexalise(domain)
-    for p in path_set: out += hexalise(p)
+    out = domain + '\n' + '\n'.join(list(path_set)) + '\n\n\n'
     return out
+
+def nonlatin_detector(dom):
+    """
+    Computes the excess nr bytes over nr characters in a domain string.
+    """
+    str = domain_string(dom[0], dom[1])
+    N = len(str)
+    hex = [c.encode('utf-8').encode('hex') for c in list(str)]
+    return float(sum([len(h)/2 for h in hex]) - N)/N
 
 def hx(i):
     """
