@@ -10,7 +10,7 @@ KEY="/Users/49269/.ssh/billsdata-us-east-1.pem"
 
 # Copy key and setup script to master node
 scp -i $KEY $KEY hadoop@$1:~
-scp -i $KEY ./setup.sh hadoop@$1:~
+scp -i $KEY ./emr_setup.sh hadoop@$1:~
 
 # Login to master, with tunnel for Ganglia and Zeppelin
 ssh -i $KEY -L 8880:localhost:80 -L 8890:localhost:8890 hadoop@$1
