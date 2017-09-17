@@ -112,7 +112,7 @@ def hx(i):
     if len(a)<2: a = ''.join(['0',a])
     return a
 
-hexabet = [hx(x) for x in range(256)] + ['.','-']
+hexabet = [hx(x) for x in range(256)]
 
 def string_features_v1(str):
     """
