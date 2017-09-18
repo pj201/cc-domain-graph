@@ -53,16 +53,16 @@ sudo modprobe nvidia
 cd /usr/local/cuda/samples/1_Utilities/deviceQuery
 sudo make
 ./deviceQuery
-cd 
+cd ~/packages
 
 # install cuDNN
 # See
 # http://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html
 
-cp ~/cc-domain-graph/lib/libcudnn7_7.0.2.38-1+cuda8.0_amd64.deb .
+cp ~/cc-domain-graph/lib/* .
 
 sudo dpkg -i libcudnn7_7.0.2.38-1+cuda8.0_amd64.deb
-
+sudo dpkg -i libcudnn7-dev_7.0.2.38-1+cuda8.0_ppc64el.deb
 
 sudo apt-get install libcupti-dev
 
