@@ -60,13 +60,11 @@ cd ~/packages
 # http://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html
 
 cp ~/cc-domain-graph/lib/* .
-
 sudo dpkg -i libcudnn7_7.0.2.38-1+cuda8.0_amd64.deb
 sudo dpkg -i libcudnn7-dev_7.0.2.38-1+cuda8.0_ppc64el.deb
 sudo dpkg -i libcudnn7-doc_7.0.2.38-1+cuda8.0_ppc64el.deb
 
 # testing:
-cd 
 cp -r /usr/src/cudnn_samples_v7/ $HOME
 cd $HOME/cudnn_samples_v7/mnistCUDNN
 make clean &&& make
