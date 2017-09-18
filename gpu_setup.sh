@@ -63,13 +63,21 @@ cp ~/cc-domain-graph/lib/* .
 
 sudo dpkg -i libcudnn7_7.0.2.38-1+cuda8.0_amd64.deb
 sudo dpkg -i libcudnn7-dev_7.0.2.38-1+cuda8.0_ppc64el.deb
+sudo dpkg -i libcudnn7-doc_7.0.2.38-1+cuda8.0_ppc64el.deb
 
-sudo apt-get install libcupti-dev
+# testing:
+cd 
+cp -r /usr/src/cudnn_samples_v7/ $HOME
+cd $HOME/cudnn_samples_v7/mnistCUDNN
+make clean &&& make
+./mnistCUDNN
+
 
 # install tensorflow using Virtualenv
 # see
 # https://www.tensorflow.org/install/install_linux#nvidia_requirements_to_run_tensorflow_with_gpu_support
 
+cd $HOME/packages
 sudo apt-get install libcupti-dev
 
 sudo apt-get install python-pip python-dev python-virtualenv # for Python 2.7
