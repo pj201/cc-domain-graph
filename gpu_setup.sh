@@ -60,14 +60,20 @@ cd ~/packages
 # http://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html
 
 cp ~/cc-domain-graph/lib/* .
+
+sudo mv /usr/lib/nvidia-375/libEGL.so.1 /usr/lib/nvidia-375/libEGL.so.1.org
+sudo mv /usr/lib32/nvidia-375/libEGL.so.1 /usr/lib32/nvidia-375/libEGL.so.1.org
+sudo ln -s /usr/lib/nvidia-375/libEGL.so.375.39 /usr/lib/nvidia-375/libEGL.so.1
+sudo ln -s /usr/lib32/nvidia-375/libEGL.so.375.39 /usr/lib32/nvidia-375/libEGL.so.1
+
 sudo dpkg -i libcudnn7_7.0.2.38-1+cuda8.0_amd64.deb
-sudo dpkg -i libcudnn7-dev_7.0.2.38-1+cuda8.0_ppc64el.deb
-sudo dpkg -i libcudnn7-doc_7.0.2.38-1+cuda8.0_ppc64el.deb
+sudo dpkg -i libcudnn7-dev_7.0.2.38-1+cuda8.0_amd64.deb
+sudo dpkg -i libcudnn7-doc_7.0.2.38-1+cuda8.0_amd64.deb
 
 # testing:
 cp -r /usr/src/cudnn_samples_v7/ $HOME
 cd $HOME/cudnn_samples_v7/mnistCUDNN
-make clean &&& make
+make clean; make
 ./mnistCUDNN
 
 
@@ -77,23 +83,16 @@ make clean &&& make
 
 cd $HOME/packages
 sudo apt-get install libcupti-dev
-
-sudo apt-get install python-pip python-dev python-virtualenv # for Python 2.7
+sudo apt-get install python-pip python-dev python-virtualenv
 
 mkdir ~/tensorflow
-sudo virtualenv --system-site-packages ~/tensorflow # for Python 2.7
+sudo virtualenv --system-site-packages ~/tensorflow 
 
 source ~/tensorflow/bin/activate
 
-# EITHER
-
-easy_install -U pip
-
-# OR (if easy_install fails)
-
-sudo pip install --upgrade tensorflow      # for Python 2.7
-sudo pip install --upgrade tensorflow-gpu  # for Python 2.7 and GPU
-sudo pip install --upgrade <tfBinaryURL>
+sudo pip install --upgrade tensorflow 
+sudo pip install --upgrade tensorflow-gpu 
+sudo pip install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.3.0-cp27-none-linux_x86_64.whl
 
 
 # install jupyter and keras etc
@@ -110,6 +109,6 @@ sudo pip install boto
 jupyter notebook --generate-config
 jupyter notebook password
 
-cd cc-domain-graph
+cd $HOME/cc-domain-graph
 jupyter notebook &
 
