@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# See:
+# https://github.com/fluxcapacitor/pipeline/wiki/AWS-GPU-TensorFlow-Docker
+
 # CUDA drivers and toolkit
 
 sudo apt-get update
@@ -62,13 +65,18 @@ sudo apt-get update
 sudo apt-get -y install python-pip
 sudo apt-get -y install ipython ipython-notebook
 pip install --upgrade pip
-sudo -H pip install jupyter tensorflow-gpu keras
+sudo pip install jupyter
+sudo pip install tensorflow
+sudo pip install tensorflow-gpu
+sudo pip install keras
 
 # if error, try:
-# sudo -H pip install jupyter tensorflow-gpu keras==1.2.2
+# sudo pip install keras==1.2.2
 
 # clone git repo
 
 sudo apt-get install git
-https://github.com/box121209/cc-domain-graph
+git clone https://github.com/box121209/cc-domain-graph
+cd cc-domain-graph
+jupyter notebook &
 
