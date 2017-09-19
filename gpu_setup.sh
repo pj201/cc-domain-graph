@@ -44,6 +44,7 @@ sudo apt-get install -y cuda
 export PATH=$PATH:/usr/local/cuda-8.0/bin
 export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64\
                          ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+export CUDA_HOME=/usr/local/cuda-8.0
 
 # verify installation
 
@@ -56,10 +57,18 @@ sudo make
 cd ~/packages
 
 # install cuDNN
+# NOTE: TF needs cuDNN v6; v7 doesn't work.
 # See
 # http://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html
 
 cp ~/cc-domain-graph/lib/* .
+
+
+
+
+
+
+
 
 sudo mv /usr/lib/nvidia-375/libEGL.so.1 /usr/lib/nvidia-375/libEGL.so.1.org
 sudo mv /usr/lib32/nvidia-375/libEGL.so.1 /usr/lib32/nvidia-375/libEGL.so.1.org
@@ -79,16 +88,15 @@ make clean; make
 
 # install tensorflow using Virtualenv
 # see
-# https://www.tensorflow.org/install/install_linux#nvidia_requirements_to_run_tensorflow_with_gpu_support
+# https://www.tensorflow.org/install/install_linux
 
 cd $HOME/packages
 sudo apt-get install libcupti-dev
 sudo apt-get install python-pip python-dev python-virtualenv
 
-mkdir ~/tensorflow
-sudo virtualenv --system-site-packages ~/tensorflow 
-
-source ~/tensorflow/bin/activate
+#mkdir ~/tensorflow
+#sudo virtualenv --system-site-packages ~/tensorflow 
+#source ~/tensorflow/bin/activate
 
 sudo pip install --upgrade tensorflow 
 sudo pip install --upgrade tensorflow-gpu 
