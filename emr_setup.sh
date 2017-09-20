@@ -35,8 +35,8 @@ echo `wc -l slaves`
 echo "--> Configuring ssh..."
 
 # TODO: Replace with your key below (generated from EC2 keypair service)
-KEY="billsdata-us-east-1.pem"
-#KEY="paulj-us-east-1.pem"
+#KEY="billsdata-us-east-1.pem"
+KEY="paulj-us-east-1.pem"
 
 eval `ssh-agent`
 #ssh-agent bash # Stops script by forking a new bash
