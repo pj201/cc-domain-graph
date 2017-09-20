@@ -5,7 +5,7 @@
 #
 # Choose Ubuntu 16.04 GPU p2.xlarge (Tesla K80)
 # CUDA Toolkit 8.0
-# cuDNN 7.0 (or 6.0 if find problems)
+# cuDNN 6.0
 # Tensorflow, Keras, Jupyter
 # Install with Virtualenv
 
@@ -63,25 +63,18 @@ cd ~/packages
 
 cp ~/cc-domain-graph/lib/* .
 
+#sudo mv /usr/lib/nvidia-375/libEGL.so.1 /usr/lib/nvidia-375/libEGL.so.1.org
+#sudo mv /usr/lib32/nvidia-375/libEGL.so.1 /usr/lib32/nvidia-375/libEGL.so.1.org
+#sudo ln -s /usr/lib/nvidia-375/libEGL.so.375.39 /usr/lib/nvidia-375/libEGL.so.1
+#sudo ln -s /usr/lib32/nvidia-375/libEGL.so.375.39 /usr/lib32/nvidia-375/libEGL.so.1
 
-
-
-
-
-
-
-sudo mv /usr/lib/nvidia-375/libEGL.so.1 /usr/lib/nvidia-375/libEGL.so.1.org
-sudo mv /usr/lib32/nvidia-375/libEGL.so.1 /usr/lib32/nvidia-375/libEGL.so.1.org
-sudo ln -s /usr/lib/nvidia-375/libEGL.so.375.39 /usr/lib/nvidia-375/libEGL.so.1
-sudo ln -s /usr/lib32/nvidia-375/libEGL.so.375.39 /usr/lib32/nvidia-375/libEGL.so.1
-
-sudo dpkg -i libcudnn7_7.0.2.38-1+cuda8.0_amd64.deb
-sudo dpkg -i libcudnn7-dev_7.0.2.38-1+cuda8.0_amd64.deb
-sudo dpkg -i libcudnn7-doc_7.0.2.38-1+cuda8.0_amd64.deb
+sudo dpkg -i libcudnn6_6.0.21-1+cuda8.0_amd64.deb
+sudo dpkg -i libcudnn6-dev_6.0.21-1+cuda8.0_amd64.deb
+sudo dpkg -i libcudnn6-doc_6.0.21-1+cuda8.0_amd64.deb
 
 # testing:
-cp -r /usr/src/cudnn_samples_v7/ $HOME
-cd $HOME/cudnn_samples_v7/mnistCUDNN
+cp -r /usr/src/cudnn_samples_v6/ $HOME
+cd $HOME/cudnn_samples_v6/mnistCUDNN
 make clean; make
 ./mnistCUDNN
 
@@ -94,9 +87,9 @@ cd $HOME/packages
 sudo apt-get install libcupti-dev
 sudo apt-get install python-pip python-dev python-virtualenv
 
-#mkdir ~/tensorflow
-#sudo virtualenv --system-site-packages ~/tensorflow 
-#source ~/tensorflow/bin/activate
+mkdir ~/tensorflow
+sudo virtualenv --system-site-packages ~/tensorflow 
+source ~/tensorflow/bin/activate
 
 sudo pip install --upgrade tensorflow 
 sudo pip install --upgrade tensorflow-gpu 
@@ -119,4 +112,23 @@ jupyter notebook password
 
 cd $HOME/cc-domain-graph
 jupyter notebook &
+
+# Post-compute:
+
+sudo apt install awscli
+
+mkdir $HOME/models
+cp $HOME/cc-domain-graph/sdata/model* $HOME/models
+aws s3 sync $HOME/models s3://billsdata.net/CommonCrawl
+
+# and update git repo:
+
+cd $HOME/cc-domain-graph
+git init
+git add . --all
+git commit -m "EC2 experiments"
+git remote add cc-domain-graph https://github.com/box121209/cc-domain-graph
+git push -u cc-domain-graph master
+
+
 
