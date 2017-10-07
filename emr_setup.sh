@@ -5,7 +5,7 @@ sudo yum update
 sudo yum -y install git 
 sudo yum -y install pssh
 sudo pip install -e git+https://github.com/commoncrawl/gzipstream.git#egg=gzipstream
-sudo pip install warc ujson sklearn
+sudo pip install warc ujson sklearn pybloom
 
 #git clone https://github.com/box121209/cc-domain-graph
 #export PYTHONPATH=$PYTHONPATH:/home/hadoop/cc-domain-graph/pyspark
