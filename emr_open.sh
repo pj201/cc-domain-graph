@@ -13,4 +13,4 @@ scp -i $KEY $KEY hadoop@$1:~
 scp -i $KEY ./emr_setup.sh hadoop@$1:~
 
 # Login to master, with tunnel for Ganglia, Spark and Zeppelin respectively
-ssh -i $KEY -L 8880:localhost:80 -L 8840:localhost:4040 -L 8890:localhost:8890 hadoop@$1
+ssh -i $KEY -L 8880:localhost:80 -L 8818:localhost:18080 -L 8890:localhost:8890 hadoop@$1

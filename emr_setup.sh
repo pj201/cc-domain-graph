@@ -55,7 +55,7 @@ done
 # install packages across slave nodes
 
 echo "--> Installing packages across slaves (this may take a few mins)..."
-pssh -h ./slaves -t 100000000 'sudo yum update; sudo yum -y install git; sudo yum -y install pssh; sudo pip install -e git+https://github.com/commoncrawl/gzipstream.git#egg=gzipstream; sudo pip install warc ujson sklearn'
+pssh -h ./slaves -t 100000000 'sudo yum update; sudo yum -y install git; sudo yum -y install pssh; sudo pip install -e git+https://github.com/commoncrawl/gzipstream.git#egg=gzipstream; sudo pip install warc ujson sklearn pybloom'
 
 # NOTE: the option -t 10000000 is to prevent time-out during install of 
 # scipy (needed for sklearn) which does a lot of compiling.
