@@ -5,7 +5,7 @@ sudo yum update
 sudo yum -y install git 
 sudo yum -y install pssh
 sudo pip install -e git+https://github.com/commoncrawl/gzipstream.git#egg=gzipstream
-sudo pip install warc ujson sklearn pybloom
+sudo pip install warc ujson sklearn pybloom langdetect pandas
 
 #git clone https://github.com/box121209/cc-domain-graph
 #export PYTHONPATH=$PYTHONPATH:/home/hadoop/cc-domain-graph/pyspark
@@ -36,8 +36,8 @@ echo "--> Configuring ssh..."
 
 # TODO: Replace with your key below (generated from EC2 keypair service)
 #KEY="billsdata-us-east-1.pem"
-#KEY="paulj-us-east-1.pem"
-KEY="PaulJ-20170907.pem"
+KEY="paulj-us-east-1.pem"
+#KEY="PaulJ-20170907.pem"
 
 eval `ssh-agent`
 #ssh-agent bash # Stops script by forking a new bash
@@ -56,7 +56,7 @@ done
 # install packages across slave nodes
 
 echo "--> Installing packages across slaves (this may take a few mins)..."
-pssh -h ./slaves -t 100000000 'sudo yum update; sudo yum -y install git; sudo yum -y install pssh; sudo pip install -e git+https://github.com/commoncrawl/gzipstream.git#egg=gzipstream; sudo pip install warc ujson sklearn pybloom'
+pssh -h ./slaves -t 100000000 'sudo yum update; sudo yum -y install git; sudo yum -y install pssh; sudo pip install -e git+https://github.com/commoncrawl/gzipstream.git#egg=gzipstream; sudo pip install warc ujson sklearn pybloom langdetect pandas'
 
 # NOTE: the option -t 10000000 is to prevent time-out during install of 
 # scipy (needed for sklearn) which does a lot of compiling.
