@@ -38,6 +38,7 @@ echo "--> Configuring ssh..."
 #KEY="billsdata-us-east-1.pem"
 #KEY="paulj-us-east-1.pem"
 KEY="PaulJ-20170907.pem"
+#KEY="paulj-ireland-1.pem"
 
 eval `ssh-agent`
 #ssh-agent bash # Stops script by forking a new bash
