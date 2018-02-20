@@ -5,7 +5,7 @@ sudo yum update
 sudo yum -y install git 
 sudo yum -y install pssh
 sudo pip install -e git+https://github.com/commoncrawl/gzipstream.git#egg=gzipstream
-sudo pip install warc ujson sklearn pybloom langdetect pandas pycld2
+sudo pip install warc ujson sklearn pybloom langdetect pandas pycld2 numpy scipy matplotlib umap-learn
 
 #git clone https://github.com/box121209/cc-domain-graph
 #export PYTHONPATH=$PYTHONPATH:/home/hadoop/cc-domain-graph/pyspark
@@ -57,7 +57,7 @@ done
 # install packages across slave nodes
 
 echo "--> Installing packages across slaves (this may take a few mins)..."
-pssh -h ./slaves -t 100000000 'sudo yum update; sudo yum -y install git; sudo yum -y install pssh; sudo pip install -e git+https://github.com/commoncrawl/gzipstream.git#egg=gzipstream; sudo pip install warc ujson sklearn pybloom langdetect pandas pycld2'
+pssh -h ./slaves -t 100000000 'sudo yum update; sudo yum -y install git; sudo yum -y install pssh; sudo pip install -e git+https://github.com/commoncrawl/gzipstream.git#egg=gzipstream; sudo pip install warc ujson sklearn pybloom langdetect pandas pycld2 numpy scipy matplotlib umap-learn'
 
 # NOTE: the option -t 10000000 is to prevent time-out during install of 
 # scipy (needed for sklearn) which does a lot of compiling.
